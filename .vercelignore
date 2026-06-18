@@ -1,3 +1,7 @@
 .env
 __MACOSX
 php.zip
+/SHOPCLONE6-main
+/php
+*.sql
+*.phar
