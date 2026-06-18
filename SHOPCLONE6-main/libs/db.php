@@ -6,17 +6,95 @@ if (!defined('IN_SITE')) {
 include_once(__DIR__.'/../vendor/autoload.php');
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
+
+// Enable detailed error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('log_errors', '1');
+ini_set('error_log', __DIR__.'/../storage/logs/php_errors.log');
+
 session_start();
 
 class DB
 {
     private $ketnoi;
+    private $query_count = 0;
+    private $query_log = [];
+    private $debug_mode = false;
+    
+    public function __construct()
+    {
+        $this->debug_mode = (isset($_ENV['DEBUG_MODE']) && $_ENV['DEBUG_MODE'] === 'true') || 
+                           (isset($_GET['debug']) && $_GET['debug'] === '1');
+    }
+    
     public function connect()
     {
         if (!$this->ketnoi) {
-            $this->ketnoi = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_DATABASE']) or die('Máy chủ đang quá tải, vui lòng thử lại sau');
-            mysqli_query($this->ketnoi, "set names 'utf8' ");
+            $this->ketnoi = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_DATABASE']);
+            if (!$this->ketnoi) {
+                $this->logError('DB Connection Failed: ' . mysqli_connect_error());
+                die('Máy chủ đang quá tải, vui lòng thử lại sau');
+            }
+            mysqli_query($this->ketnoi, "set names 'utf8mb4' ");
+            $this->logDebug('Database connected successfully');
         }
+    }
+    
+    private function logDebug($message)
+    {
+        if ($this->debug_mode) {
+            $this->query_log[] = ['time' => microtime(true), 'type' => 'DEBUG', 'message' => $message];
+            error_log('[DEBUG] ' . $message);
+        }
+    }
+    
+    private function logError($message)
+    {
+        $this->query_log[] = ['time' => microtime(true), 'type' => 'ERROR', 'message' => $message];
+        error_log('[ERROR] ' . $message);
+    }
+    
+    public function getQueryLog()
+    {
+        return $this->query_log;
+    }
+    
+    public function getQueryCount()
+    {
+        return $this->query_count;
+    }
+    
+    private function executeQuery($sql, $method = 'query')
+    {
+        $start = microtime(true);
+        $this->connect();
+        
+        $this->logDebug("SQL [$method]: $sql");
+        
+        $result = $this->ketnoi->query($sql);
+        
+        $duration = microtime(true) - $start;
+        $this->query_count++;
+        
+        if ($result === false) {
+            $error = mysqli_error($this->ketnoi);
+            $errno = mysqli_errno($this->ketnoi);
+            $this->logError("SQL Error [$errno]: $error | Query: $sql");
+            
+            if ($this->debug_mode) {
+                echo "<div style='background:#fee;padding:10px;margin:5px;border:1px solid #fcc;border-radius:4px;font-family:monospace;font-size:12px;'>";
+                echo "<strong>SQL Error [$errno]:</strong> " . htmlspecialchars($error) . "<br>";
+                echo "<strong>Query:</strong> <code>" . htmlspecialchars($sql) . "</code><br>";
+                echo "<strong>Method:</strong> $method<br>";
+                echo "<strong>Duration:</strong> " . round($duration * 1000, 2) . "ms";
+                echo "</div>";
+            }
+            return false;
+        }
+        
+        $this->logDebug("SQL Success: " . round($duration * 1000, 2) . "ms");
+        return $result;
     }
     public function dis_connect()
     {
@@ -26,41 +104,33 @@ class DB
     }
     public function site($data)
     {
-        $this->connect();
-        $row = $this->ketnoi->query("SELECT * FROM `settings` WHERE `name` = '$data' ")->fetch_array();
-        return $row['value'];
+        $sql = "SELECT * FROM `settings` WHERE `name` = '$data' ";
+        $result = $this->executeQuery($sql, 'site');
+        if ($result && $row = $result->fetch_array()) {
+            return $row['value'];
+        }
+        return null;
     }
     public function query($sql)
     {
-        try {
-            $this->connect();
-            $row = $this->ketnoi->query($sql);
-            return $row;
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
+        return $this->executeQuery($sql, 'query');
     }
     public function get_row2($sql)
     {
-        $this->connect();
-        $row = $this->ketnoi->query($sql);
-        return $row;
+        return $this->executeQuery($sql, 'get_row2');
     }
     public function cong($table, $data, $sotien, $where)
     {
-        $this->connect();
-        $row = $this->ketnoi->query("UPDATE `$table` SET `$data` = `$data` + '$sotien' WHERE $where ");
-        return $row;
+        $sql = "UPDATE `$table` SET `$data` = `$data` + '$sotien' WHERE $where ";
+        return $this->executeQuery($sql, 'cong');
     }
     public function tru($table, $data, $sotien, $where)
     {
-        $this->connect();
-        $row = $this->ketnoi->query("UPDATE `$table` SET `$data` = `$data` - '$sotien' WHERE $where ");
-        return $row;
+        $sql = "UPDATE `$table` SET `$data` = `$data` - '$sotien' WHERE $where ";
+        return $this->executeQuery($sql, 'tru');
     }
     public function insert($table, $data)
     {
-        $this->connect();
         $field_list = '';
         $value_list = '';
         foreach ($data as $key => $value) {
@@ -68,41 +138,40 @@ class DB
             $value_list .= ",'".mysqli_real_escape_string($this->ketnoi, $value)."'";
         }
         $sql = 'INSERT INTO '.$table. '('.trim($field_list, ',').') VALUES ('.trim($value_list, ',').')';
-
-        return mysqli_query($this->ketnoi, $sql);
+        $result = $this->executeQuery($sql, 'insert');
+        if ($result) {
+            return mysqli_insert_id($this->ketnoi);
+        }
+        return false;
     }
     public function update($table, $data, $where)
     {
-        $this->connect();
         $sql = '';
         foreach ($data as $key => $value) {
             $sql .= "$key = '".mysqli_real_escape_string($this->ketnoi, $value)."',";
         }
         $sql = 'UPDATE '.$table. ' SET '.trim($sql, ',').' WHERE '.$where;
-        return mysqli_query($this->ketnoi, $sql);
+        return $this->executeQuery($sql, 'update');
     }
     public function update_value($table, $data, $where, $value1)
     {
-        $this->connect();
         $sql = '';
         foreach ($data as $key => $value) {
             $sql .= "$key = '".mysqli_real_escape_string($this->ketnoi, $value)."',";
         }
         $sql = 'UPDATE '.$table. ' SET '.trim($sql, ',').' WHERE '.$where.' LIMIT '.$value1;
-        return mysqli_query($this->ketnoi, $sql);
+        return $this->executeQuery($sql, 'update_value');
     }
     public function remove($table, $where)
     {
-        $this->connect();
         $sql = "DELETE FROM $table WHERE $where";
-        return mysqli_query($this->ketnoi, $sql);
+        return $this->executeQuery($sql, 'remove');
     }
     public function get_list($sql)
     {
-        $this->connect();
-        $result = mysqli_query($this->ketnoi, $sql);
+        $result = $this->executeQuery($sql, 'get_list');
         if (!$result) {
-            die('Câu truy vấn bị sai');
+            return [];
         }
         $return = array();
         while ($row = mysqli_fetch_assoc($result)) {
@@ -113,10 +182,9 @@ class DB
     }
     public function get_row($sql)
     {
-        $this->connect();
-        $result = mysqli_query($this->ketnoi, $sql);
+        $result = $this->executeQuery($sql, 'get_row');
         if (!$result) {
-            die('Câu truy vấn bị sai');
+            return false;
         }
         $row = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
@@ -127,10 +195,9 @@ class DB
     }
     public function num_rows($sql)
     {
-        $this->connect();
-        $result = mysqli_query($this->ketnoi, $sql);
+        $result = $this->executeQuery($sql, 'num_rows');
         if (!$result) {
-            die('Câu truy vấn bị sai');
+            return false;
         }
         $row = mysqli_num_rows($result);
         mysqli_free_result($result);
@@ -138,6 +205,16 @@ class DB
             return $row;
         }
         return false;
+    }
+    
+    public function getLastInsertId()
+    {
+        return mysqli_insert_id($this->ketnoi);
+    }
+    
+    public function getAffectedRows()
+    {
+        return mysqli_affected_rows($this->ketnoi);
     }
 }
 

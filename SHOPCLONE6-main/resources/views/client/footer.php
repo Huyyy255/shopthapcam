@@ -724,6 +724,77 @@
 <!-- Dev By CMSNT.CO | FB.COM/CMSNT.CO | ZALO.ME/0947838128 | MMO Solution -->
 <!-- Script Footer -->
 <?= $CMSNT->site('javascript'); ?>
+
+<?php 
+// Debug Panel
+$debug_mode = (isset($_ENV['DEBUG_MODE']) && $_ENV['DEBUG_MODE'] === 'true') || 
+              (isset($_GET['debug']) && $_GET['debug'] === '1') ||
+              (isset($_SESSION['debug_mode']) && $_SESSION['debug_mode'] === true);
+
+if ($debug_mode && isset($CMSNT) && $CMSNT instanceof DB) {
+    $query_log = $CMSNT->getQueryLog();
+    $query_count = $CMSNT->getQueryCount();
+    $memory_usage = memory_get_peak_usage(true);
+    $memory_limit = ini_get('memory_limit');
+?>
+<div id="debug-panel" style="
+    position: fixed; bottom: 0; left: 0; right: 0; 
+    background: #1a1a2e; color: #eee; border-top: 3px solid #00d4ff;
+    font-family: 'Monaco', 'Menlo', monospace; font-size: 11px; 
+    max-height: 40vh; overflow: auto; z-index: 99999;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+">
+    <div style="padding: 8px 12px; background: #16213e; border-bottom: 1px solid #0f3460; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+        <strong style="color: #00d4ff;">🔧 DEBUG PANEL</strong>
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+            <span>Queries: <strong style="color: #ffd700;"><?= $query_count ?></strong></span>
+            <span>Memory: <strong style="color: #00ff88;"><?= round($memory_usage/1024/1024, 2) ?> MB</strong> / <?= $memory_limit ?></span>
+            <span>Time: <strong style="color: #ff6b6b;"><?= round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 2) ?> ms</strong></span>
+            <a href="<?= BASE_URL($_SERVER['REQUEST_URI'] . (strpos($_SERVER['REQUEST_URI'], '?') ? '&' : '?') . 'debug=0') ?>" style="color: #ff4444; text-decoration: none; padding: 2px 8px; border: 1px solid #ff4444; border-radius: 3px;">Disable</a>
+            <button onclick="document.getElementById('debug-panel').style.display='none'" style="background: #0f3460; border: 1px solid #00d4ff; color: #00d4ff; padding: 2px 10px; border-radius: 3px; cursor: pointer;">Minimize</button>
+        </div>
+    </div>
+    <div style="padding: 10px;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #0f3460; position: sticky; top: 0;">
+                    <th style="padding: 6px; text-align: left; border: left; border-bottom: 1px solid #00d4ff;">#</th>
+                    <th style="padding: 6px; text-align: left; border-bottom: 1px solid #00d4ff;">Type</th>
+                    <th style="padding: 6px; text-align: left; border-bottom: 1px solid #00d4ff;">Duration</th>
+                    <th style="padding: 6px; text-align: left; border-bottom: 1px solid #00d4ff;">Query / Message</th>
+                </tr>
+            </thead>
+            <tbody>
+<?php
+    foreach ($query_log as $i => $log) {
+        $color = $log['type'] === 'ERROR' ? '#ff6b6b' : ($log['type'] === 'DEBUG' ? '#00d4ff' : '#ffd700');
+        $bg = $i % 2 === 0 ? '#1a1a2e' : '#16213e';
+        $msg = htmlspecialchars($log['message']);
+        if (strlen($msg) > 200) {
+            $msg = substr($msg, 0, 200) . '<span style="color:#888;">... [truncated]</span>';
+        }
+        echo "<tr style='background: $bg;'>";
+        echo "<td style='padding: 4px 6px; border-bottom: 1px solid #0f3460; color: #888;'>{$i}</td>";
+        echo "<td style='padding: 4px 6px; border-bottom: 1px solid #0f3460; color: $color; font-weight: bold;'>{$log['type']}</td>";
+        echo "<td style='padding: 4px 6px; border-bottom: 1px solid #0f3460; color: #ffd700;'>" . (isset($log['duration']) ? round($log['duration'] * 1000, 2) . 'ms' : '-') . "</td>";
+        echo "<td style='padding: 4px 6px; border-bottom: 1px solid #0f3460; font-family: monospace; word-break: break-all;'>$msg</td>";
+        echo "</tr>";
+    }
+?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+        var panel = document.getElementById('debug-panel');
+        if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+});
+</script>
+<?php } ?>
+
 </body>
 
 </html>

