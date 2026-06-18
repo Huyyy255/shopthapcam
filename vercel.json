@@ -1,16 +1,13 @@
 {
   "version": 2,
   "functions": {
-    "index.php": {
+    "api/index.php": {
       "runtime": "vercel-php@0.9.0"
     },
     "api/*.php": {
       "runtime": "vercel-php@0.9.0"
     },
     "ajaxs/**/*.php": {
-      "runtime": "vercel-php@0.9.0"
-    },
-    "cron/*.php": {
       "runtime": "vercel-php@0.9.0"
     }
   },
@@ -20,12 +17,16 @@
       "dest": "/public/$1"
     },
     {
-      "src": "/(.*\\.php)",
-      "dest": "/$1"
+      "src": "/ajaxs/(.*)",
+      "dest": "/ajaxs/$1"
+    },
+    {
+      "src": "/api/(.*\\.php)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.php"
+      "dest": "/api/index.php"
     }
   ]
 }
