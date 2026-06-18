@@ -10,12 +10,12 @@
     <!-- Open Graph data -->
     <meta property="og:title" content="Lỗi 404 - Trang không tìm thấy">
     <meta property="og:type" content="Website">
-    <meta property="og:url" content="https://shopclone6.com/404">
+    <meta property="og:url" content="/404">
     <meta property="og:description" content="Trang bạn yêu cầu không tìm thấy. Trở về trang chủ hoặc liên hệ với chúng tôi để được hỗ trợ.">
     <meta property="og:site_name" content="SHOPCLONE6">
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="https://shopclone6.com/public/datum/assets/images/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/public/datum/assets/images/logo.png" type="image/x-icon">
     
     <!-- CSS Files -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -173,10 +173,10 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="https://shopclone6.com/" class="btn-home">
+                            <a href="/" class="btn-home">
                                 <i class="fas fa-home mr-2"></i>Về trang chủ
                             </a>
-                            <a href="https://shopclone6.com/client/contact" class="btn-contact">
+                            <a href="/client/contact" class="btn-contact">
                                 <i class="fas fa-envelope mr-2"></i>Liên hệ hỗ trợ
                             </a>
                         </div>
@@ -200,13 +200,13 @@
                     <div class="mt-4">
                         <p class="text-muted mb-2">Hoặc truy cập nhanh:</p>
                         <div class="d-inline-block">
-                            <a href="https://shopclone6.com/client/home" class="text-primary mx-2">Trang chủ</a>
+                            <a href="/client/home" class="text-primary mx-2">Trang chủ</a>
                             <span class="text-muted">|</span>
-                            <a href="https://shopclone6.com/client/shop" class="text-primary mx-2">Cửa hàng</a>
+                            <a href="/client/shop" class="text-primary mx-2">Cửa hàng</a>
                             <span class="text-muted">|</span>
-                            <a href="https://shopclone6.com/client/cart" class="text-primary mx-2">Giỏ hàng</a>
+                            <a href="/client/cart" class="text-primary mx-2">Giỏ hàng</a>
                             <span class="text-muted">|</span>
-                            <a href="https://shopclone6.com/client/orders" class="text-primary mx-2">Đơn hàng</a>
+                            <a href="/client/orders" class="text-primary mx-2">Đơn hàng</a>
                         </div>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
             e.preventDefault();
             const searchTerm = document.getElementById('searchInput').value.trim();
             if (searchTerm) {
-                window.location.href = `https://shopclone6.com/client/search?q=${encodeURIComponent(searchTerm)}`;
+                window.location.href = `/client/search?q=${encodeURIComponent(searchTerm)}`;
             }
         });
         

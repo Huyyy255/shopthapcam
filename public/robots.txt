@@ -48,4 +48,4 @@ Disallow: /resources/css/
 Disallow: /resources/js/
 Disallow: /resources/views/
 Disallow: /resources/index.html
-Sitemap: https://shopclone6.com/sitemap.xml
+Sitemap: /sitemap.xml

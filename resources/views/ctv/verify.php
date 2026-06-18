@@ -10,10 +10,10 @@ $body['header'] = '';
 $body['footer'] = '';
 if (isset($_GET['token'])) {
     if (!$row = $CMSNT->get_row("SELECT * FROM `users` WHERE `token` = '".check_string(base64_decode($_GET['token']))."' AND `admin` = 1 ")) {
-        redirect(base_url('ctv/login'));
+        redirect('/ctv/login');
     }
 } else {
-    redirect(base_url('ctv/login'));
+    redirect('/ctv/login');
 }
 require_once(__DIR__.'/header.php');
 ?>
@@ -56,7 +56,7 @@ $("#btnVerify").on("click", function() {
                     message: respone.msg,
                     timer: 5000
                 });
-                setTimeout("location.href = '<?=BASE_URL('');?>';", 100);
+                setTimeout("location.href = '/';", 100);
             } 
             else {
                 cuteToast({

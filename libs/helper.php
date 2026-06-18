@@ -1275,15 +1275,29 @@ function get_url(){
     $url.= $_SERVER['REQUEST_URI'];    
     return $url;  
 }
-// Hàm tạo URL
+// Hàm tạo URL động
+function getBaseUrl()
+{
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+        $protocol = "https://";
+    } else {
+        $protocol = "http://";
+    }
+    $host = $_SERVER["HTTP_HOST"];
+    if ($host == 'localhost') {
+        $host = 'localhost:3000';
+    }
+    return $protocol . $host;
+}
+
 function base_url($url = '')
 {
     global $domain_block;
-    $a = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"];
-    if ($a == 'http://localhost') {
-        $a = 'http://localhost/CMSNT.CO/SHOPCLONE6';
+    $base = getBaseUrl();
+    if ($base == 'http://localhost:3000') {
+        $base = 'http://localhost:3000';
     }
-    return $a.'/'.$url;
+    return $base.'/'.$url;
 }
 // mã hoá password
 function TypePassword($password)

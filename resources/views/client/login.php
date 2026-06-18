@@ -180,7 +180,7 @@ $("#btnLogin").on("click", function() {
                     message: respone.msg,
                     timer: 5000
                 });
-                setTimeout("location.href = '<?=BASE_URL('client/home');?>';", 100);
+                setTimeout("location.href = '/client/home';", 100);
             } else if (respone.status == 'verify') {
                 cuteToast({
                     type: "warning",
