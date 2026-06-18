@@ -2,14 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "SHOPCLONE6-main/index.php",
+      "src": "index.php",
       "use": "@vercel/php"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "SHOPCLONE6-main/index.php"
+      "dest": "/index.php"
     }
   ]
 }
