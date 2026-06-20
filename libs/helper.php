@@ -4,7 +4,11 @@ if (!defined('IN_SITE')) {
     die('The Request Not Found');
 }
 $CMSNT = new DB;
-date_default_timezone_set($CMSNT->site('timezone'));
+$timezone = $CMSNT->site('timezone');
+if (!$timezone) {
+    $timezone = 'Asia/Ho_Chi_Minh';
+}
+date_default_timezone_set($timezone);
 
 if($CMSNT->get_row(" SELECT * FROM `banned_ips` WHERE `ip` = '".myip()."' AND `banned` = 1 ")){
     require_once(__DIR__.'/../resources/views/common/block-ip.php');
@@ -28,7 +32,7 @@ function checkWhiteDomain($domain){
         'blackacc.com',
         'shop.kmedia.vn',
         'wow1shop.vn',
-        'muaads.com.vn'.
+        'muaads.com.vn',
         'anyfb.com'
     ];
     foreach($domain_white as $row){
@@ -2086,7 +2090,7 @@ function check_path($path){
 
 function check_admin_session() {
     global $CMSNT;
-    if (check_admin_session()) return true;
+    if (isset($_SESSION['admin_login'])) return true;
     if (isset($_COOKIE['token'])) {
         $getUser = $CMSNT->get_row("SELECT `token` FROM `users` WHERE `token` = '".check_string($_COOKIE['token'])."' AND `admin` != 0 ");
         if ($getUser) {
@@ -2099,7 +2103,7 @@ function check_admin_session() {
 
 function check_user_session() {
     global $CMSNT;
-    if (check_user_session()) return true;
+    if (isset($_SESSION['login'])) return true;
     if (isset($_COOKIE['token'])) {
         $getUser = $CMSNT->get_row("SELECT `token` FROM `users` WHERE `token` = '".check_string($_COOKIE['token'])."' ");
         if ($getUser) {

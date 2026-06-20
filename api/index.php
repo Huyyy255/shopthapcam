@@ -2,6 +2,13 @@
 <?php
 define("IN_SITE", true);
 
+require_once(__DIR__.'/../libs/db.php');
+require_once(__DIR__.'/../config.php');
+require_once(__DIR__.'/../libs/lang.php');
+require_once(__DIR__.'/../libs/helper.php');
+require_once(__DIR__.'/../libs/database/users.php');
+$CMSNT = new DB();
+
 if (!empty($_GET['ajax_file'])) {
     $ajax_file = $_GET['ajax_file'];
     $ajax_file = str_replace(['../', '..\\'], '', $ajax_file);
@@ -14,13 +21,6 @@ if (!empty($_GET['ajax_file'])) {
         exit('Ajax file not found.');
     }
 }
-
-require_once(__DIR__.'/../libs/db.php');
-require_once(__DIR__.'/../config.php');
-require_once(__DIR__.'/../libs/lang.php');
-require_once(__DIR__.'/../libs/helper.php');
-require_once(__DIR__.'/../libs/database/users.php');
-$CMSNT = new DB();
  
 $module = !empty($_GET['module']) ? check_path($_GET['module']) : 'client';
 $home   = $module == 'client' ? $CMSNT->site('home_page') : 'home';

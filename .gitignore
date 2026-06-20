@@ -1,4 +1,14 @@
-SHOPCLONE6-main/vendor/
-SHOPCLONE6-main/.env
+vendor/
+.env
 __MACOSX/
-SHOPCLONE6-main/__MACOSX/
+.DS_Store
+*.zip
+php.zip
+composer.phar
+install.php
+shopclone6.sql
+api/error_log
+storage/logs/
+.Trash-*
+*.md
+.env.local
