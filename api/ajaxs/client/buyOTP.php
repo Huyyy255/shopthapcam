@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($CMSNT->site('status_thuesim') != 1) {
         die(json_encode(['status' => 'error', 'msg' => __('Chức năng này đang được bảo trì')]));
     }
-    if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+    if ($CMSNT->site('status') != 1 && !check_admin_session()) {
         die(json_encode(['status' => 'error', 'msg' => __('Hệ thống đang bảo trì')]));
     }
     if (empty($_POST['id'])) {

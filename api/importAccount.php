@@ -10,7 +10,7 @@
 
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+        if ($CMSNT->site('status') != 1 && !check_admin_session()) {
             die(json_encode(['status' => 'error', 'msg' => __('Hệ thống đang bảo trì')]));
         }
         if (empty($_POST['username']) || empty($_POST['password'])) {
@@ -101,7 +101,7 @@
         }
     }
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+        if ($CMSNT->site('status') != 1 && !check_admin_session()) {
             die(json_encode(['status' => 'error', 'msg' => __('Hệ thống đang bảo trì')]));
         }
         if (empty($_GET['username']) || empty($_GET['password'])) {

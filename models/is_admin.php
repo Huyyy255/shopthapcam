@@ -53,7 +53,7 @@ if (isset($_COOKIE["token"])) {
     }
     $_SESSION['admin_login'] = $getUser['token'];
 }
-if (!isset($_SESSION['admin_login'])) {
+if (!check_admin_session()) {
     //checkAdminAccessAttempts();
     redirect(base_url('client/login'));
 } else {

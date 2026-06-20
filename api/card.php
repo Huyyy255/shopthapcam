@@ -9,7 +9,7 @@ $User = new users();
 $CMSNT = new DB();
 $Mobile_Detect = new Mobile_Detect();
 
-if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+if ($CMSNT->site('status') != 1 && !check_admin_session()) {
     die('status_website_off');
 }
 if ($CMSNT->site('status_napthe') != 1) {

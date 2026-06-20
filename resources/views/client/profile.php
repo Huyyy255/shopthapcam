@@ -155,7 +155,7 @@ require_once(__DIR__.'/sidebar.php');
                     </div>
                 </div>
                 <?php 
-                if ($CMSNT->site('is_update_phone') == 1 && isset($_SESSION['login']) && $getUser['phone'] == '') {?>
+                if ($CMSNT->site('is_update_phone') == 1 && check_user_session() && $getUser['phone'] == '') {?>
                 <div class="alert text-white bg-warning" role="alert">
                     <div class="iq-alert-text"><i class="fa-solid fa-exclamation mr-1"></i><?=__('Vui lòng cập nhật số điện thoại để tiếp tục sử dụng website');?></div>
                 </div>

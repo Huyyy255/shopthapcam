@@ -10,7 +10,7 @@ $Mobile_Detect = new Mobile_Detect();
 use PragmaRX\Google2FAQRCode\Google2FA;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+    if ($CMSNT->site('status') != 1 && !check_admin_session()) {
         die(json_encode(['status' => 'error', 'msg' => __('Hệ thống đang bảo trì') ]));
     }
     if (isset($_POST['action']) && $_POST['action'] == 'ChangeProfile') {

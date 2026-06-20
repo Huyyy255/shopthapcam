@@ -18,7 +18,7 @@ if ($CMSNT->site('sign_view_product') == 0) {
         }
         $_SESSION['login'] = $getUser['token'];
     }
-    if (isset($_SESSION['login'])) {
+    if (check_user_session()) {
         require_once(__DIR__ . '/../../../models/is_user.php');
     }
 } else {
@@ -31,7 +31,7 @@ if($CMSNT->site('status_is_change_password') == 1){
     }
 }
 if ($CMSNT->site('is_update_phone') == 1) {
-    if (isset($_SESSION['login']) && $getUser['phone'] == '') {
+    if (check_user_session() && $getUser['phone'] == '') {
         redirect(base_url('client/profile'));
     }
 }

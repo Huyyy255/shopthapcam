@@ -13,7 +13,7 @@ if (isset($_COOKIE["token"])) {
     }
     $_SESSION['login'] = $getUser['token'];
 }
-if (!isset($_SESSION['login'])) {
+if (!check_user_session()) {
     redirect(base_url('client/login'));
 } else {
     $getUser = $CMSNT->get_row(" SELECT * FROM `users` WHERE `token` = '".check_string($_SESSION['login'])."'  ");

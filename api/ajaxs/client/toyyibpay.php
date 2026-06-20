@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($CMSNT->site('status_demo') != 0) {
         die(json_encode(['status' => 'error', 'msg' => __('You cannot use this function because this is a demo site')]));
     }
-    if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+    if ($CMSNT->site('status') != 1 && !check_admin_session()) {
         die(json_encode(['status' => 'error', 'msg' => __('The system is maintenance')]));
     }
     if ($CMSNT->site('status_toyyibpay') != 1) {

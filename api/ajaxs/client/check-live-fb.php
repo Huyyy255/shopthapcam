@@ -11,7 +11,7 @@ $Mobile_Detect = new Mobile_Detect();
 
 
 if(isset($_GET['uid'])) {
-    if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+    if ($CMSNT->site('status') != 1 && !check_admin_session()) {
         die(json_encode(['status' => 'error', 'msg' => __('Hệ thống đang bảo trì')]));
     }
     $uid = check_string($_GET['uid']);

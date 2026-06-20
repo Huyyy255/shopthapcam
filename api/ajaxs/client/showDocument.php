@@ -13,7 +13,7 @@ if($CMSNT->site('sign_view_product') == 0){
         }
         $_SESSION['login'] = $getUser['token'];
     }
-    if (isset($_SESSION['login'])) {
+    if (check_user_session()) {
         require_once(__DIR__.'/../../../models/is_user.php');
     }
 }else{
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {?>
                     <td><i><?=$product['create_date'];?></i></td>
                     <td><i><?=$product['update_date'];?></i></td>
                     <td>
-                        <?php if (isset($_SESSION['login'])):?>
+                        <?php if (check_user_session()):?>
                             <?php if($CMSNT->get_row("SELECT * FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `document_id` = '".$product['id']."' ")):?>
                                 <a href="<?=base_url('client/order/'.$CMSNT->get_row("SELECT * FROM `orders` WHERE `buyer` = '".$getUser['id']."' AND `document_id` = '".$product['id']."' ")['trans_id']);?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-eye mr-1"></i><?=__('XEM');?></a>
                             <?php else:?>

@@ -27,7 +27,7 @@ $home   = $module == 'client' ? $CMSNT->site('home_page') : 'home';
 $action = !empty($_GET['action']) ? check_path($_GET['action']) : $home;
 
 if($module == 'client'){
-    if ($CMSNT->site('status') != 1 && !isset($_SESSION['admin_login'])) {
+    if ($CMSNT->site('status') != 1 && !check_admin_session()) {
         require_once(__DIR__.'/../resources/views/common/maintenance.php');
         exit();
     }

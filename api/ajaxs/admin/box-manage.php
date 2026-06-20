@@ -9,7 +9,7 @@ require_once(__DIR__ . "/../../../libs/helper.php");
 $CMSNT = new DB();
 
 // Verify admin login
-if (!isset($_SESSION['admin_login']) || $_SESSION['admin_login'] != 1) {
+if (!check_admin_session()) {
     die(json_encode(['status' => 'error', 'msg' => 'Unauthorized']));
 }
 

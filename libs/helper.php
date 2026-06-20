@@ -2083,3 +2083,29 @@ function pagination($url, $start, $total, $kmess)
 function check_path($path){
     return preg_replace("/[^A-Za-z0-9_-]/", '', check_string($path));
 }
+
+function check_admin_session() {
+    global $CMSNT;
+    if (check_admin_session()) return true;
+    if (isset($_COOKIE['token'])) {
+        $getUser = $CMSNT->get_row("SELECT `token` FROM `users` WHERE `token` = '".check_string($_COOKIE['token'])."' AND `admin` != 0 ");
+        if ($getUser) {
+            $_SESSION['admin_login'] = $getUser['token'];
+            return true;
+        }
+    }
+    return false;
+}
+
+function check_user_session() {
+    global $CMSNT;
+    if (check_user_session()) return true;
+    if (isset($_COOKIE['token'])) {
+        $getUser = $CMSNT->get_row("SELECT `token` FROM `users` WHERE `token` = '".check_string($_COOKIE['token'])."' ");
+        if ($getUser) {
+            $_SESSION['login'] = $getUser['token'];
+            return true;
+        }
+    }
+    return false;
+}

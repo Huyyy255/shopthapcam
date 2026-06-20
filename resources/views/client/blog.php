@@ -30,7 +30,7 @@ if($CMSNT->site('sign_view_product') == 0){
         }
         $_SESSION['login'] = $getUser['token'];
     }
-    if (isset($_SESSION['login'])) {
+    if (check_user_session()) {
         require_once(__DIR__.'/../../../models/is_user.php');
     }
 }else{
