@@ -28,7 +28,7 @@ function checkWhiteDomain($domain){
         'blackacc.com',
         'shop.kmedia.vn',
         'wow1shop.vn',
-        'muaads.com.vn'.
+        'muaads.com.vn',
         'anyfb.com'
     ];
     foreach($domain_white as $row){

@@ -31,7 +31,8 @@ class DB
     public function connect()
     {
         if (!$this->ketnoi) {
-            $this->ketnoi = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_DATABASE']);
+            $host = (strpos($_ENV['DB_HOST'], 'p:') === 0) ? $_ENV['DB_HOST'] : 'p:' . $_ENV['DB_HOST'];
+            $this->ketnoi = mysqli_connect($host, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_DATABASE']);
             if (!$this->ketnoi) {
                 $this->logError('DB Connection Failed: ' . mysqli_connect_error());
                 die('Máy chủ đang quá tải, vui lòng thử lại sau');
