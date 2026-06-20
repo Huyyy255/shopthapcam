@@ -2,10 +2,10 @@
 
 define("IN_SITE", true);
 
-require_once(__DIR__."/../../../../libs/db.php");
-require_once(__DIR__."/../../../../libs/helper.php");
-require_once(__DIR__.'/../../../../models/is_admin.php');
-require_once(__DIR__."/../../../../libs/sendEmail.php");
+require_once(__DIR__."/../../../libs/db.php");
+require_once(__DIR__."/../../../libs/helper.php");
+require_once(__DIR__.'/../../../models/is_admin.php');
+require_once(__DIR__."/../../../libs/sendEmail.php");
 
 if (isset($_POST['type'])) {
     if ($CMSNT->site('status_demo') != 0) {

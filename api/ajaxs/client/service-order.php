@@ -1,10 +1,10 @@
 <?php
 
 define("IN_SITE", true);
-require_once(__DIR__."/../../../../libs/db.php");
-require_once(__DIR__."/../../../../libs/helper.php");
-require_once(__DIR__."/../../../../libs/sendEmail.php");
-require_once(__DIR__."/../../../../libs/database/users.php");
+require_once(__DIR__."/../../../libs/db.php");
+require_once(__DIR__."/../../../libs/helper.php");
+require_once(__DIR__."/../../../libs/sendEmail.php");
+require_once(__DIR__."/../../../libs/database/users.php");
 $User = new users();
 $CMSNT = new DB();
 $Mobile_Detect = new Mobile_Detect();

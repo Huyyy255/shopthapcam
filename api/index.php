@@ -2,6 +2,18 @@
 <?php
 define("IN_SITE", true);
 
+if (!empty($_GET['ajax_file'])) {
+    $ajax_file = $_GET['ajax_file'];
+    $ajax_file = str_replace(['../', '..\\'], '', $ajax_file);
+    $ajax_path = __DIR__ . '/ajaxs/' . $ajax_file;
+    if (file_exists($ajax_path) && is_file($ajax_path)) {
+        require_once $ajax_path;
+        exit;
+    } else {
+        http_response_code(404);
+        exit('Ajax file not found.');
+    }
+}
 
 require_once(__DIR__.'/../libs/db.php');
 require_once(__DIR__.'/../config.php');

@@ -1,8 +1,8 @@
 <?php
 define("IN_SITE", true);
-require_once(__DIR__."/../../../../libs/db.php");
-require_once(__DIR__."/../../../../libs/lang.php");
-require_once(__DIR__."/../../../../libs/helper.php");
+require_once(__DIR__."/../../../libs/db.php");
+require_once(__DIR__."/../../../libs/lang.php");
+require_once(__DIR__."/../../../libs/helper.php");
 $CMSNT = new DB();
 if($CMSNT->site('sign_view_product') == 0){
     if (isset($_COOKIE["token"])) {
@@ -14,10 +14,10 @@ if($CMSNT->site('sign_view_product') == 0){
         $_SESSION['login'] = $getUser['token'];
     }
     if (isset($_SESSION['login'])) {
-        require_once(__DIR__.'/../../../../models/is_user.php');
+        require_once(__DIR__.'/../../../models/is_user.php');
     }
 }else{
-    require_once(__DIR__.'/../../../../models/is_user.php');
+    require_once(__DIR__.'/../../../models/is_user.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {?>

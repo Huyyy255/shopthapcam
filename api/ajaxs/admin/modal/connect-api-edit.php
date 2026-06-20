@@ -2,11 +2,11 @@
 
 define("IN_SITE", true);
 
-require_once(__DIR__ . "/../../../../../libs/db.php");
-require_once(__DIR__ . "/../../../../../libs/helper.php");
-require_once(__DIR__ . "/../../../../../libs/lang.php");
-require_once(__DIR__ . '/../../../../../models/is_admin.php');
-require_once(__DIR__ . "/../../../../../libs/database/users.php");
+require_once(__DIR__ . "/../../../../libs/db.php");
+require_once(__DIR__ . "/../../../../libs/helper.php");
+require_once(__DIR__ . "/../../../../libs/lang.php");
+require_once(__DIR__ . '/../../../../models/is_admin.php');
+require_once(__DIR__ . "/../../../../libs/database/users.php");
 
 if (!$row = $CMSNT->get_row(" SELECT * FROM `connect_api` WHERE `id` = '" . check_string($_GET['id']) . "' ")) {
     die('<script type="text/javascript">if(!alert("Item không tồn tại trong hệ thống")){location.reload();}</script>');
