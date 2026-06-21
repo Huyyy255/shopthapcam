@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SHOPCLONE6 - Trang thương mại điện tử</title>
+    <meta http-equiv="refresh" content="0;url=/client/login">
     <meta name="description" content="SHOPCLONE6 - Nền tảng thương mại điện tử hiện đại với hàng nghìn sản phẩm chất lượng">
     <meta name="keywords" content="mua sắm online, thương mại điện tử, SHOPCLONE6, hàng hóa chất lượng">
     <meta name="author" content="SHOPCLONE6">
@@ -282,20 +283,10 @@
             document.getElementById('spinner').style.display = 'block';
             document.getElementById('btnLogin').disabled = true;
             
-            // Simulate login API call (replace with actual API call)
-            setTimeout(function() {
-                // Hide loading spinner
-                document.getElementById('spinner').style.display = 'none';
-                document.getElementById('btnLogin').disabled = false;
-                
-                // Show success alert
-                showAlert('success', 'Đăng nhập thành công!');
-                
-                // Redirect to dashboard after 1.5 seconds
+        // Redirect to proper login page
                 setTimeout(function() {
-                    window.location.href = '/client/home';
-                }, 1500);
-            }, 1500);
+                    window.location.href = '/client/login';
+                }, 100);
         });
         
         function showAlert(type, message) {

@@ -201,10 +201,10 @@ if (isset($_POST['RemoveAccounts']) && isset($_POST['listAccount'])) {
         <div class="container-fluid">
             <div class="row">
                 <a type="button"
-                    href="<?=base_url('index.php?module=admin&action=account-view&id='.check_string($_GET['id']));?>"
+                    href="<?=base_url('admin/account-view/'.check_string($_GET['id']));?>"
                     class="btn btn-primary btn-block ">XEM DANH SÁCH TÀI KHOẢN ĐANG BÁN</a>
                 <a type="button"
-                    href="<?=base_url('index.php?module=admin&action=account-sold&id='.check_string($_GET['id']));?>"
+                    href="<?=base_url('admin/account-sold/'.check_string($_GET['id']));?>"
                     class="btn btn-danger btn-block mb-5">XEM DANH SÁCH TÀI KHOẢN ĐÃ BÁN</a>
                 <section class="col-lg-6 connectedSortable">
                     <div class="card card-success card-outline">

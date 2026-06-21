@@ -215,7 +215,7 @@ if (isset($_POST['SaveSettings'])) {
                                                         (<?=format_cash($phantram);?>%)</div>
                                                 </div>
                                                 <div class="text-center"><a
-                                                        href="<?=base_url('index.php?module=admin&action=email-sending-view&id='.$row['id']);?>">View
+                                                        href="<?=base_url('admin/email-sending-view/'.$row['id']);?>">View
                                                         Sending Report</a></div>
                                             </td>
                                             <td>
@@ -233,7 +233,7 @@ if (isset($_POST['SaveSettings'])) {
                                                     <ul class="dropdown-menu"
                                                         aria-labelledby="dropdownMenuButton<?=$row['id'];?>">
                                                         <li>
-                                                            <a href="<?=base_url('index.php?module=admin&action=email-campaign-edit&id='.$row['id']);?>"
+                                                            <a href="<?=base_url('admin/email-campaign-edit/'.$row['id']);?>"
                                                                 class="dropdown-item">
                                                                 Edit
                                                             </a>

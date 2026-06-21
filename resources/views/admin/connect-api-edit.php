@@ -403,7 +403,7 @@ if (isset($_POST['btnSave'])) {
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" target="_blank"
-                                        href="<?=base_url('index.php?module=admin&action=product-order&id_connect_api='.$row['id']);?>">QUẢN
+                                        href="<?=base_url('admin/product-order/'.$row['id']);?>">QUẢN
                                         LÝ ĐƠN HÀNG</a>
                                 </li>
                             </ul>

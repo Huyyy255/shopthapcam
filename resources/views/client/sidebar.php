@@ -320,7 +320,7 @@
                         <?php }?>
                         <?php if ($CMSNT->site('status_crypto') == 1) {?>
                         <li class="<?=active_sidebar_client(['crypto']);?> sidebar-layout">
-                            <a href="<?=base_url('index.php?action=crypto');?>" class="svg-icon ">
+                            <a href="<?=base_url('client/crypto');?>" class="svg-icon ">
                                 <i class="fa-brands fa-bitcoin"></i>
                                 <span class="ml-2"><?=__('Crypto');?></span>
                             </a>

@@ -312,10 +312,8 @@ require_once(__DIR__.'/nav.php');
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="<?=base_url('index.php');?>"
+                            <form action="<?=base_url('admin/recharge-crypto');?>"
                                 class="row row-cols-lg-auto g-3 align-items-center mb-3" name="formSearch" method="GET">
-                                <input type="hidden" name="module" value="admin">
-                                <input type="hidden" name="action" value="recharge-crypto">
                                 <div class="col-lg col-md-4 col-6">
                                     <input class="form-control mb-2" value="<?=$user_id;?>" name="user_id"
                                         placeholder="<?=__('Search User ID');?>">

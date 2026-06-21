@@ -388,9 +388,6 @@ function display_invoice($status)
 function base_url_admin($url = '')
 {
     $a = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"];
-    if ($a == 'http://localhost') {
-        $a = 'http://localhost/CMSNT.CO/SHOPCLONE6';
-    }
     return $a.'?module=admin&action='.$url;
 }
 
@@ -1288,19 +1285,12 @@ function getBaseUrl()
         $protocol = "http://";
     }
     $host = $_SERVER["HTTP_HOST"];
-    if ($host == 'localhost') {
-        $host = 'localhost:3000';
-    }
     return $protocol . $host;
 }
 
 function base_url($url = '')
 {
-    global $domain_block;
     $base = getBaseUrl();
-    if ($base == 'http://localhost:3000') {
-        $base = 'http://localhost:3000';
-    }
     return $base.'/'.$url;
 }
 // mã hoá password

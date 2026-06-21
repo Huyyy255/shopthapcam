@@ -370,7 +370,7 @@ if (isset($_POST['SaveSettings'])) {
                                             </td>
                                             <td>
                                                 <a class="btn-sm btn btn-info"
-                                                    href="<?=base_url('index.php?module=admin&action=connect-api-edit&id='.$row['id']);?>"
+                                                    href="<?=base_url('admin/connect-api-edit/'.$row['id']);?>"
                                                     type="button">
                                                     <i class="fas fa-edit mr-1"></i><span class="">Edit</span>
                                                 </a>

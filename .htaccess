@@ -1,4 +1,5 @@
 RewriteEngine On
+RewriteBase /
 
 <Files .env>
     Order allow,deny
@@ -9,6 +10,9 @@ RewriteEngine On
     Order allow,deny
     Deny from all
 </FilesMatch>
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 
 
 #Xử lý Route CTV

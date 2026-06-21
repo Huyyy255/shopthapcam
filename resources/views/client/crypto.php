@@ -102,9 +102,8 @@ $listDatatable = $CMSNT->get_list(" SELECT * FROM `crypto_invoice` WHERE $where 
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <form action="<?=base_url('index.php');?>"
+                        <form action="<?=base_url('client/crypto');?>"
                             class="row row-cols-lg-auto g-3 align-items-center mb-3" name="formSearch" method="GET">
-                            <input type="hidden" name="action" value="crypto">
                             <div class="col-lg col-md-4 col-6">
                                 <input class="form-control mb-2" value="<?=$trans_id;?>" name="trans_id"
                                     placeholder="<?=__('Search trans id');?>">
@@ -130,7 +129,7 @@ $listDatatable = $CMSNT->get_list(" SELECT * FROM `crypto_invoice` WHERE $where 
                                     <?=__('Search');?>
                                 </button>
                                 <a class="btn btn-hero btn-sm btn-danger"
-                                    href="<?=base_url('index.php?action=crypto');?>"><i
+                                    href="<?=base_url('client/crypto');?>"><i
                                         class="fa fa-trash"></i>
                                     <?=__('Clear filter');?>
                                 </a>
