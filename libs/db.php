@@ -15,8 +15,12 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 ini_set('log_errors', '1');
 ini_set('error_log', __DIR__.'/../api/error_log');
+ini_set('session.save_path', '/tmp');
+ini_set('session.gc_max_lifetime', '14400');
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    @session_start();
+}
 
 class DB
 {
@@ -37,7 +41,11 @@ class DB
             $host = (strpos($_ENV['DB_HOST'], 'p:') === 0) ? $_ENV['DB_HOST'] : 'p:' . $_ENV['DB_HOST'];
             $this->ketnoi = mysqli_connect($host, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_DATABASE']);
             if (!$this->ketnoi) {
-                $this->logError('DB Connection Failed: ' . mysqli_connect_error());
+                $error = 'DB Connection Failed: ' . mysqli_connect_error();
+                $this->logError($error);
+                if ($this->debug_mode) {
+                    echo $error;
+                }
                 die('Máy chủ đang quá tải, vui lòng thử lại sau');
             }
             mysqli_query($this->ketnoi, "set names 'utf8mb4' ");
