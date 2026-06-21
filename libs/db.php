@@ -4,8 +4,11 @@ if (!defined('IN_SITE')) {
     die('The Request Not Found');
 }
 include_once(__DIR__.'/../vendor/autoload.php');
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
-$dotenv->load();
+$envPath = __DIR__.'/../.env';
+if (file_exists($envPath)) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+    $dotenv->load();
+}
 
 // Error reporting configuration
 error_reporting(E_ALL);
